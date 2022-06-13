@@ -1,10 +1,8 @@
-FROM postgres:14-bullseye
+FROM groonga/pgroonga:latest-debian-14
 
-RUN sed -i 's/$/ 13/' /etc/apt/sources.list.d/pgdg.list
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-		postgresql-13=13.7-1.pgdg110+1 \
-	&& rm -rf /var/lib/apt/lists/*
+RUN apt install -y -V wget && wget https://packages.groonga.org/debian/groonga-apt-source-latest-buster.deb &&  apt install -y -V ./groonga-apt-source-latest-buster.deb
+RUN apt update && apt install -y -V postgresql-13-pgroonga
+RUN rm -rf /var/lib/apt/lists/*
 
 ENV PGBINOLD /usr/lib/postgresql/13/bin
 ENV PGBINNEW /usr/lib/postgresql/14/bin
